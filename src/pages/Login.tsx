@@ -43,6 +43,7 @@ function Login() {
         <button type="submit">Log In</button>
       </form>
       {error && <p>{error}</p>}
+      <p><Link to="/forgot-password">Forgot password?</Link></p>
       <p>Don't have an account? <Link to="/signup">Sign up</Link></p>
     </div>
   )

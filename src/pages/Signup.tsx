@@ -6,6 +6,7 @@ function Signup() {
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
   const [error, setError] = useState('')
+  const [done, setDone] = useState(false)
   const { signup } = useAuth()
   const navigate = useNavigate()
 
@@ -14,10 +15,20 @@ function Signup() {
     setError('')
     try {
       await signup(email, password)
-      navigate('/')
+      setDone(true)
     } catch (err) {
       setError('Could not create account. ' + (err instanceof Error ? err.message : ''))
     }
+  }
+
+  if (done) {
+    return (
+      <div>
+        <h2>Check your email</h2>
+        <p>We sent a verification link to {email}. Verify it, then log in.</p>
+        <button onClick={() => navigate('/login')}>Go to Login</button>
+      </div>
+    )
   }
 
   return (
