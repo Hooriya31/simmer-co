@@ -1,0 +1,30 @@
+:root {
+  --cream: #FBF3E7;
+  --cream-card: #FFFDF8;
+  --umber: #3A2E22;
+  --taupe: #8B7355;
+  --paprika: #B8542F;
+  --paprika-light: #D97D54;
+  --herb: #5C7047;
+  --turmeric: #D4A24C;
+
+  --font-display: 'DM Serif Display', serif;
+  --font-body: 'Work Sans', sans-serif;
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: var(--font-body);
+  background: var(--cream);
+  color: var(--umber);
+}
+
+a {
+  text-decoration: none;
+  color: inherit;
+}
