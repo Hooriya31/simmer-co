@@ -1,59 +1,100 @@
 import { useState, useEffect } from 'react'
 import { Link } from 'react-router-dom'
-import { searchRecipes, getRandomRecipes } from '../lib/mealdb'
+import { searchRecipes } from '../lib/mealdb'
+import FavoriteButton from '../components/FavoriteButton'
+import { SearchIcon } from '../components/icons'
 import type { Recipe } from '../lib/types'
+
+const CATEGORIES = [
+  { name: 'Dessert', emoji: '🍰' },
+  { name: 'Chicken', emoji: '🍗' },
+  { name: 'Seafood', emoji: '🦐' },
+  { name: 'Vegetarian', emoji: '🥗' },
+  { name: 'Breakfast', emoji: '🍳' },
+]
+
+const BASE_URL = 'https://www.themealdb.com/api/json/v1/1'
 
 function Home() {
   const [recipes, setRecipes] = useState<Recipe[]>([])
   const [query, setQuery] = useState('')
+  const [activeCategory, setActiveCategory] = useState('Dessert')
   const [loading, setLoading] = useState(true)
 
   useEffect(() => {
-    loadRandom()
-  }, [])
+    loadByCategory(activeCategory)
+  }, [activeCategory])
 
-  async function loadRandom() {
+  async function loadByCategory(category: string) {
     setLoading(true)
-    const data = await getRandomRecipes(8)
-    setRecipes(data)
+    const res = await fetch(`${BASE_URL}/filter.php?c=${category}`)
+    const data = await res.json()
+    setRecipes((data.meals || []).slice(0, 8))
     setLoading(false)
   }
 
   async function handleSearch(e: React.FormEvent) {
     e.preventDefault()
-    if (!query.trim()) {
-      loadRandom()
-      return
-    }
+    if (!query.trim()) return
     setLoading(true)
     const data = await searchRecipes(query)
     setRecipes(data)
     setLoading(false)
   }
 
+  const featured = recipes[0]
+
   return (
-    <div>
-      <form onSubmit={handleSearch}>
+    <div className="page">
+      <form className="search-bar" onSubmit={handleSearch}>
+        <SearchIcon />
         <input
           type="text"
           placeholder="Search recipes..."
           value={query}
           onChange={(e) => setQuery(e.target.value)}
         />
-        <button type="submit">Search</button>
       </form>
+
+      {!loading && featured && (
+        <Link to={`/recipe/${featured.idMeal}`}>
+          <div className="hero-card" style={{ backgroundImage: `url(${featured.strMealThumb})` }}>
+            <div className="hero-content">
+              <p className="hero-eyebrow">Featured Recipe</p>
+              <h2>{featured.strMeal}</h2>
+            </div>
+          </div>
+        </Link>
+      )}
+
+      <div className="category-row">
+        {CATEGORIES.map((cat) => (
+          <button
+            key={cat.name}
+            className={`category-chip ${activeCategory === cat.name ? 'active' : ''}`}
+            onClick={() => setActiveCategory(cat.name)}
+          >
+            {cat.emoji} {cat.name}
+          </button>
+        ))}
+      </div>
 
       {loading ? (
         <p>Loading...</p>
       ) : (
-        <div>
-          {recipes.map((recipe) => (
-            <Link key={recipe.idMeal} to={`/recipe/${recipe.idMeal}`}>
-              <div>
-                <img src={recipe.strMealThumb} alt={recipe.strMeal} width={200} />
-                <p>{recipe.strMeal}</p>
-              </div>
-            </Link>
+        <div className="recipe-grid">
+          {recipes.slice(1).map((recipe) => (
+            <div key={recipe.idMeal} className="recipe-card">
+              <Link to={`/recipe/${recipe.idMeal}`}>
+                <div className="img-wrap">
+                  <img src={recipe.strMealThumb} alt={recipe.strMeal} />
+                </div>
+                <div className="card-body">
+                  <h3>{recipe.strMeal}</h3>
+                </div>
+              </Link>
+              <FavoriteButton recipe={recipe} />
+            </div>
           ))}
         </div>
       )}

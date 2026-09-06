@@ -23,7 +23,7 @@ function Login() {
   }
 
   return (
-    <div>
+    <div className="page auth-page">
       <h2>Log In</h2>
       <form onSubmit={handleSubmit}>
         <input
@@ -42,7 +42,7 @@ function Login() {
         />
         <button type="submit">Log In</button>
       </form>
-      {error && <p>{error}</p>}
+      {error && <p style={{ color: 'var(--paprika)' }}>{error}</p>}
       <p><Link to="/forgot-password">Forgot password?</Link></p>
       <p>Don't have an account? <Link to="/signup">Sign up</Link></p>
     </div>

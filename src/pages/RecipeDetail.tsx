@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react'
 import { useParams } from 'react-router-dom'
 import { getRecipeById } from '../lib/mealdb'
+import FavoriteButton from '../components/FavoriteButton'
 import type { Recipe } from '../lib/types'
 
 function RecipeDetail() {
@@ -19,15 +20,20 @@ function RecipeDetail() {
     setLoading(false)
   }
 
-  if (loading) return <p>Loading...</p>
-  if (!recipe) return <p>Recipe not found.</p>
+  if (loading) return <p className="page">Loading...</p>
+  if (!recipe) return <p className="page">Recipe not found.</p>
 
   return (
-    <div>
-      <img src={recipe.strMealThumb} alt={recipe.strMeal} width={300} />
-      <h2>{recipe.strMeal}</h2>
-      <p>{recipe.strCategory} • {recipe.strArea}</p>
-      <p>{recipe.strInstructions}</p>
+    <div className="page recipe-detail">
+      <div className="recipe-detail-hero">
+        <img src={recipe.strMealThumb} alt={recipe.strMeal} />
+      </div>
+      <h1>{recipe.strMeal}</h1>
+      <div className="recipe-meta">
+        <span>{recipe.strCategory} • {recipe.strArea}</span>
+        <FavoriteButton recipe={recipe} />
+      </div>
+      <p className="recipe-instructions">{recipe.strInstructions}</p>
     </div>
   )
 }

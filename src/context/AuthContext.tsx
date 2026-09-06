@@ -6,6 +6,7 @@ import {
   onAuthStateChanged,
   sendEmailVerification,
   sendPasswordResetEmail,
+  deleteUser,
   type User,
 } from 'firebase/auth'
 import { auth } from '../lib/firebase'
@@ -18,6 +19,7 @@ interface AuthContextType {
   logout: () => Promise<void>
   resetPassword: (email: string) => Promise<void>
   resendVerification: () => Promise<void>
+  deleteAccount: () => Promise<void>
 }
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined)
@@ -57,8 +59,14 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     }
   }
 
+  async function deleteAccount() {
+    if (auth.currentUser) {
+      await deleteUser(auth.currentUser)
+    }
+  }
+
   return (
-    <AuthContext.Provider value={{ user, loading, signup, login, logout, resetPassword, resendVerification }}>
+    <AuthContext.Provider value={{ user, loading, signup, login, logout, resetPassword, resendVerification, deleteAccount }}>
       {children}
     </AuthContext.Provider>
   )

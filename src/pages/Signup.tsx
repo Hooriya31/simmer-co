@@ -23,16 +23,16 @@ function Signup() {
 
   if (done) {
     return (
-      <div>
+      <div className="page auth-page">
         <h2>Check your email</h2>
         <p>We sent a verification link to {email}. Verify it, then log in.</p>
-        <button onClick={() => navigate('/login')}>Go to Login</button>
+        <button onClick={() => navigate('/login')} style={{ marginTop: 16 }}>Go to Login</button>
       </div>
     )
   }
 
   return (
-    <div>
+    <div className="page auth-page">
       <h2>Create Account</h2>
       <form onSubmit={handleSubmit}>
         <input
@@ -51,7 +51,7 @@ function Signup() {
         />
         <button type="submit">Sign Up</button>
       </form>
-      {error && <p>{error}</p>}
+      {error && <p style={{ color: 'var(--paprika)' }}>{error}</p>}
       <p>Already have an account? <Link to="/login">Log in</Link></p>
     </div>
   )

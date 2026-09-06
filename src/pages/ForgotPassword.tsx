@@ -21,16 +21,16 @@ function ForgotPassword() {
 
   if (sent) {
     return (
-      <div>
+      <div className="page auth-page">
         <h2>Check your email</h2>
         <p>We sent a password reset link to {email}.</p>
-        <Link to="/login">Back to Login</Link>
+        <p><Link to="/login">Back to Login</Link></p>
       </div>
     )
   }
 
   return (
-    <div>
+    <div className="page auth-page">
       <h2>Reset Password</h2>
       <form onSubmit={handleSubmit}>
         <input
@@ -42,7 +42,7 @@ function ForgotPassword() {
         />
         <button type="submit">Send Reset Link</button>
       </form>
-      {error && <p>{error}</p>}
+      {error && <p style={{ color: 'var(--paprika)' }}>{error}</p>}
       <p><Link to="/login">Back to Login</Link></p>
     </div>
   )
