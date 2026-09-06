@@ -19,3 +19,15 @@ export async function getRecipeById(id: string) {
   const data = await res.json()
   return data.meals?.[0] || null
 }
+
+export async function getCategories() {
+  const res = await fetch(`${BASE_URL}/categories.php`)
+  const data = await res.json()
+  return data.categories || []
+}
+
+export async function getByCategory(category: string) {
+  const res = await fetch(`${BASE_URL}/filter.php?c=${category}`)
+  const data = await res.json()
+  return data.meals || []
+}

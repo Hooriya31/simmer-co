@@ -15,7 +15,7 @@ function Header() {
   return (
     <>
       <header className="site-header">
-        <Link to="/" className="logo">🍲 Simmer & Co.</Link>
+        <Link to="/" className="logo"><img src="/logo-header.png" alt="" /> Simmer & Co.</Link>
         <nav>
           <Link to="/favorites" className="desktop-only">Favorites</Link>
           {user ? (
@@ -33,8 +33,8 @@ function Header() {
         <Link to="/" className={location.pathname === '/' ? 'active' : ''}>
           <HomeIcon /><span>Home</span>
         </Link>
-        <Link to="/" className={location.pathname === '/search' ? 'active' : ''}>
-          <SearchIcon /><span>Search</span>
+        <Link to="/?focus=1" className={location.search.includes('focus') ? 'active' : ''}>
+            <SearchIcon /><span>Search</span>
         </Link>
         <Link to="/favorites" className={location.pathname === '/favorites' ? 'active' : ''}>
           <HeartIcon filled={location.pathname === '/favorites'} /><span>Favorites</span>
