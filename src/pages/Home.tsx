@@ -48,7 +48,7 @@ function Home() {
       } else if (category) {
         data = (await getByCategory(category)).slice(0, 16)
       } else {
-        const requests = Array.from({ length: 9 }, () =>
+        const requests = Array.from({ length: 4 }, () =>
           fetch(`${BASE_URL}/random.php`).then(r => r.json())
         )
         const results = await Promise.all(requests)
@@ -77,8 +77,7 @@ function Home() {
 
   const isDefaultView = !q && !category
   const featuredMain = isDefaultView ? recipes[0] : null
-  const featuredSide = isDefaultView ? recipes.slice(1, 3) : []
-  const gridRecipes = isDefaultView ? recipes.slice(3) : recipes
+  const featuredSide = isDefaultView ? recipes.slice(1, 4) : []
 
   return (
     <div className="page">
@@ -93,7 +92,7 @@ function Home() {
         />
       </form>
 
-      {!loading && featuredMain && (
+      {isDefaultView && !loading && featuredMain && (
         <>
           <Link to={`/recipe/${featuredMain.idMeal}`}>
             <div className="hero-main" style={{ backgroundImage: `url(${featuredMain.strMealThumb})` }}>
@@ -134,40 +133,45 @@ function Home() {
       )}
 
       {!isDefaultView && (
-        <div className="category-scroll">
-          {categories.map((cat) => (
-            <button
-              key={cat.strCategory}
-              className={`category-circle ${category === cat.strCategory ? 'active' : ''}`}
-              onClick={() => handleCategoryClick(cat.strCategory)}
-            >
-              <img src={cat.strCategoryThumb} alt={cat.strCategory} />
-              <span>{cat.strCategory}</span>
-            </button>
-          ))}
-        </div>
-      )}
+        <>
+          <div className="category-scroll">
+            {categories.map((cat) => (
+              <button
+                key={cat.strCategory}
+                className={`category-circle ${category === cat.strCategory ? 'active' : ''}`}
+                onClick={() => handleCategoryClick(cat.strCategory)}
+              >
+                <img src={cat.strCategoryThumb} alt={cat.strCategory} />
+                <span>{cat.strCategory}</span>
+              </button>
+            ))}
+          </div>
 
-      {loading ? (
-        <p>Loading...</p>
-      ) : gridRecipes.length === 0 ? (
-        <p>No recipes found — try a different search.</p>
-      ) : (
-        <div className="recipe-grid">
-          {gridRecipes.map((recipe) => (
-            <div key={recipe.idMeal} className="recipe-card">
-              <Link to={`/recipe/${recipe.idMeal}`}>
-                <div className="img-wrap">
-                  <img src={recipe.strMealThumb} alt={recipe.strMeal} />
+          {loading ? (
+            <p>Loading...</p>
+          ) : recipes.length === 0 ? (
+            <p>No recipes found — try a different search.</p>
+          ) : (
+            <div className="recipe-grid">
+              {recipes.map((recipe) => (
+                <div key={recipe.idMeal} className="recipe-card">
+                  <Link to={`/recipe/${recipe.idMeal}`}>
+                    <div className="img-wrap">
+                      <img src={recipe.strMealThumb} alt={recipe.strMeal} />
+                      {(recipe.strCategory || category) && (
+                        <span className="card-tag">{recipe.strCategory || category}</span>
+                      )}
+                    </div>
+                    <div className="card-body">
+                      <h3>{recipe.strMeal}</h3>
+                    </div>
+                  </Link>
+                  <FavoriteButton recipe={recipe} />
                 </div>
-                <div className="card-body">
-                  <h3>{recipe.strMeal}</h3>
-                </div>
-              </Link>
-              <FavoriteButton recipe={recipe} />
+              ))}
             </div>
-          ))}
-        </div>
+          )}
+        </>
       )}
     </div>
   )

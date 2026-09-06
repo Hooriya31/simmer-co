@@ -15,26 +15,36 @@ function Header() {
   return (
     <>
       <header className="site-header">
-        <Link to="/" className="logo"><img src="/logo-header.png" alt="" /> Simmer & Co.</Link>
+        <Link to="/" className="logo">
+          <img src="/logo-header.png" alt="" /> Simmer & Co.
+        </Link>
         <nav>
-          <Link to="/favorites" className="desktop-only">Favorites</Link>
+          <Link to="/favorites" className="nav-pill desktop-only">
+            <HeartIcon filled={false} /> Favorites
+          </Link>
           {user ? (
             <>
-              <Link to="/account" className="desktop-only">{user.email}</Link>
-              <button onClick={handleLogout} className="desktop-only">Log Out</button>
+              <Link to="/account" className="nav-pill desktop-only">
+                <UserIcon /> {user.email}
+              </Link>
+              <button onClick={handleLogout} className="nav-pill desktop-only nav-pill-outline">
+                Log Out
+              </button>
             </>
           ) : (
-            <Link to="/login" className="desktop-only">Login</Link>
+            <Link to="/login" className="nav-pill nav-pill-solid desktop-only">
+              <UserIcon /> Login
+            </Link>
           )}
         </nav>
       </header>
 
       <nav className="bottom-nav">
-        <Link to="/" className={location.pathname === '/' ? 'active' : ''}>
+        <Link to="/" className={location.pathname === '/' && !location.search ? 'active' : ''}>
           <HomeIcon /><span>Home</span>
         </Link>
         <Link to="/?focus=1" className={location.search.includes('focus') ? 'active' : ''}>
-            <SearchIcon /><span>Search</span>
+          <SearchIcon /><span>Search</span>
         </Link>
         <Link to="/favorites" className={location.pathname === '/favorites' ? 'active' : ''}>
           <HeartIcon filled={location.pathname === '/favorites'} /><span>Favorites</span>
