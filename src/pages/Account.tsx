@@ -25,8 +25,10 @@ function Account() {
     <div className="page auth-page">
       <h2>Account</h2>
       <p style={{ marginBottom: 20 }}>{user?.email}</p>
-      <button onClick={handleLogout} style={{ marginBottom: 10, padding: '10px 0', background: 'var(--herb)', color: '#fff', borderRadius: 50 }}>Log Out</button>
-      <button onClick={handleDelete} style={{ padding: '10px 0', background: 'transparent', color: 'var(--paprika)', border: '1px solid var(--paprika)', borderRadius: 50 }}>Delete Account</button>
+      <div className="account-actions">
+        <button className="btn-account" onClick={handleLogout}>Log Out</button>
+        <button className="btn-account btn-account-outline" onClick={handleDelete}>Delete Account</button>
+      </div>
     </div>
   )
 }

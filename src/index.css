@@ -56,7 +56,6 @@ img { display: block; max-width: 100%; }
 .nav-pill:hover { border-color: var(--paprika); color: var(--paprika); }
 .nav-pill-solid { background: var(--paprika); color: #fff; border-color: var(--paprika); }
 .nav-pill-solid:hover { background: var(--paprika-light); color: #fff; }
-.nav-pill-outline { background: transparent; }
 
 /* MOBILE BOTTOM NAV */
 .bottom-nav { display: none; }
@@ -107,41 +106,42 @@ img { display: block; max-width: 100%; }
   .search-bar input { font-size: 0.85rem; }
 }
 
-/* HERO — main featured card + side row */
-.hero-main {
-  position: relative;
+/* HERO BANNER — custom graphic, never crops, same on all screens */
+.hero-banner {
+  background-image: url('/banner-bg.svg');
+  background-size: cover;
+  background-position: center;
   border-radius: var(--radius);
-  overflow: hidden;
-  aspect-ratio: 16/5.5;
-  background-size: cover; background-position: center;
-  margin-bottom: 12px;
+  height: clamp(150px, 24vh, 230px);
   display: flex;
-  align-items: flex-end;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  margin-bottom: 14px;
 }
-.hero-main::before {
-  content: '';
-  position: absolute; inset: 0;
-  background: linear-gradient(180deg, rgba(58,46,34,0) 40%, rgba(58,46,34,0.9) 100%);
+.hero-banner-content { padding: 0 20px; }
+.hero-banner .hero-eyebrow {
+  font-size: 0.78rem; text-transform: uppercase; letter-spacing: 0.14em;
+  color: var(--paprika); margin-bottom: 6px; font-weight: 600;
 }
-.hero-main .hero-content { position: relative; z-index: 1; padding: 20px; color: #FFF8ED; }
-.hero-eyebrow {
-  font-size: 0.7rem; text-transform: uppercase; letter-spacing: 0.1em;
-  color: var(--turmeric); margin-bottom: 4px;
+.hero-banner h1 {
+  font-family: var(--font-display);
+  font-size: clamp(1.8rem, 4.5vw, 2.8rem);
+  color: var(--umber);
+  margin-bottom: 8px;
+  line-height: 1.1;
 }
-.hero-main h2 { font-family: var(--font-display); font-size: 1.5rem; margin-bottom: 10px; }
-.btn-get-recipe {
-  display: inline-block;
-  background: var(--paprika);
-  color: #fff;
-  padding: 9px 20px;
-  border-radius: 50px;
-  font-size: 0.78rem;
-  font-weight: 600;
+.hero-tagline {
+  font-size: 0.9rem;
+  color: var(--taupe);
+  max-width: 420px;
+  margin: 0 auto;
 }
 
+/* SIDE ROW — real fetched recipe photos below the banner */
 .hero-side-row {
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
+  grid-template-columns: 1fr 1fr;
   gap: 12px;
   margin-bottom: 16px;
 }
@@ -149,7 +149,7 @@ img { display: block; max-width: 100%; }
   position: relative;
   border-radius: var(--radius);
   overflow: hidden;
-  aspect-ratio: 16/11;
+  height: clamp(90px, 15vh, 150px);
   background-size: cover; background-position: center;
   display: flex;
   align-items: flex-end;
@@ -159,12 +159,9 @@ img { display: block; max-width: 100%; }
   position: absolute; inset: 0;
   background: linear-gradient(180deg, rgba(58,46,34,0) 45%, rgba(58,46,34,0.88) 100%);
 }
-.hero-side-card .hero-content { position: relative; z-index: 1; padding: 12px; color: #FFF8ED; }
-.hero-side-card h3 { font-family: var(--font-display); font-size: 0.95rem; line-height: 1.25; }
-
+.hero-side-card .hero-content { position: relative; z-index: 1; padding: 10px; color: #FFF8ED; }
+.hero-side-card h3 { font-family: var(--font-display); font-size: 0.9rem; line-height: 1.2; }
 @media (max-width: 768px) {
-  .hero-main { aspect-ratio: 16/11; }
-  .hero-main h2 { font-size: 1.15rem; }
   .hero-side-row { grid-template-columns: repeat(2, 1fr); }
 }
 
@@ -337,7 +334,7 @@ img { display: block; max-width: 100%; }
 .source-link { margin-top: 20px; font-size: 0.82rem; }
 .source-link a { color: var(--taupe); text-decoration: underline; }
 
-/* FORMS */
+/* FORMS (login/signup/forgot-password/account) */
 .auth-page {
   max-width: 400px; margin: 60px auto; padding: 32px;
   background: var(--cream-card); border-radius: var(--radius);
@@ -358,4 +355,37 @@ img { display: block; max-width: 100%; }
 .auth-page p { margin-top: 14px; font-size: 0.85rem; color: var(--taupe); }
 @media (max-width: 768px) {
   .auth-page { margin: 30px auto; padding: 24px; }
+}
+
+/* ACCOUNT PAGE ACTIONS */
+.account-actions {
+  display: flex; flex-direction: column; gap: 10px;
+  margin-top: 10px;
+}
+.btn-account {
+  width: 100%;
+  padding: 12px 0;
+  border-radius: 50px;
+  background: var(--herb);
+  color: #fff;
+  font-weight: 600;
+  text-align: center;
+}
+.btn-account-outline {
+  background: transparent;
+  color: var(--paprika);
+  border: 1px solid var(--paprika);
+}
+
+@media (max-width: 480px) {
+  .auth-page { margin: 24px 16px; }
+}
+.home-hero-wrap {
+  min-height: calc(100dvh - 64px);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+@media (max-width: 768px) {
+  .home-hero-wrap { min-height: calc(100dvh - 128px); }
 }

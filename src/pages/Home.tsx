@@ -76,8 +76,6 @@ function Home() {
   }
 
   const isDefaultView = !q && !category
-  const featuredMain = isDefaultView ? recipes[0] : null
-  const featuredSide = isDefaultView ? recipes.slice(1, 4) : []
 
   return (
     <div className="page">
@@ -92,45 +90,45 @@ function Home() {
         />
       </form>
 
-      {isDefaultView && !loading && featuredMain && (
-        <>
-          <Link to={`/recipe/${featuredMain.idMeal}`}>
-            <div className="hero-main" style={{ backgroundImage: `url(${featuredMain.strMealThumb})` }}>
+     {isDefaultView && (
+  <div className="home-hero-wrap">
+    <div className="hero-banner">
+      <div className="hero-banner-content">
+        <p className="hero-eyebrow">Welcome to</p>
+        <h1>Simmer & Co.</h1>
+        <p className="hero-tagline">Recipes worth cooking for. Find your next favorite dish.</p>
+      </div>
+    </div>
+
+    {!loading && (
+      <div className="hero-side-row">
+        {recipes.slice(0, 2).map((recipe) => (
+          <Link key={recipe.idMeal} to={`/recipe/${recipe.idMeal}`}>
+            <div className="hero-side-card" style={{ backgroundImage: `url(${recipe.strMealThumb})` }}>
               <div className="hero-content">
-                <p className="hero-eyebrow">Featured Recipe</p>
-                <h2>{featuredMain.strMeal}</h2>
-                <span className="btn-get-recipe">Get Recipe</span>
+                <h3>{recipe.strMeal}</h3>
               </div>
             </div>
           </Link>
+        ))}
+      </div>
+    )}
 
-          <div className="hero-side-row">
-            {featuredSide.map((recipe) => (
-              <Link key={recipe.idMeal} to={`/recipe/${recipe.idMeal}`}>
-                <div className="hero-side-card" style={{ backgroundImage: `url(${recipe.strMealThumb})` }}>
-                  <div className="hero-content">
-                    <h3>{recipe.strMeal}</h3>
-                  </div>
-                </div>
-              </Link>
-            ))}
-          </div>
-        </>
-      )}
-
-      {isDefaultView && categories.length > 0 && (
-        <>
-          <h3 className="section-label">Discover by Category</h3>
-          <div className="category-scroll">
-            {categories.map((cat) => (
-              <button key={cat.strCategory} className="category-circle" onClick={() => handleCategoryClick(cat.strCategory)}>
-                <img src={cat.strCategoryThumb} alt={cat.strCategory} />
-                <span>{cat.strCategory}</span>
-              </button>
-            ))}
-          </div>
-        </>
-      )}
+    {categories.length > 0 && (
+      <>
+        <h3 className="section-label">Discover by Category</h3>
+        <div className="category-scroll">
+          {categories.map((cat) => (
+            <button key={cat.strCategory} className="category-circle" onClick={() => handleCategoryClick(cat.strCategory)}>
+              <img src={cat.strCategoryThumb} alt={cat.strCategory} />
+              <span>{cat.strCategory}</span>
+            </button>
+          ))}
+        </div>
+      </>
+    )}
+  </div>
+)}
 
       {!isDefaultView && (
         <>
@@ -150,7 +148,7 @@ function Home() {
           {loading ? (
             <p>Loading...</p>
           ) : recipes.length === 0 ? (
-            <p>No recipes found — try a different search.</p>
+            <p>No recipes found.Try a different search.</p>
           ) : (
             <div className="recipe-grid">
               {recipes.map((recipe) => (

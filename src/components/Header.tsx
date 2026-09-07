@@ -23,15 +23,10 @@ function Header() {
             <HeartIcon filled={false} /> Favorites
           </Link>
           {user ? (
-            <>
-              <Link to="/account" className="nav-pill desktop-only">
-                <UserIcon /> {user.email}
-              </Link>
-              <button onClick={handleLogout} className="nav-pill desktop-only nav-pill-outline">
-                Log Out
-              </button>
-            </>
-          ) : (
+  <Link to="/account" className="nav-pill desktop-only">
+    <UserIcon /> Account
+  </Link>
+) : (
             <Link to="/login" className="nav-pill nav-pill-solid desktop-only">
               <UserIcon /> Login
             </Link>
