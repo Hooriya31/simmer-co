@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react'
 import { useParams } from 'react-router-dom'
-import { getRecipeById } from '../lib/mealdb'
+import { getRecipeById, mealImg, ingredientImg } from '../lib/mealdb'
 import FavoriteButton from '../components/FavoriteButton'
 import { getIngredients } from '../lib/types'
 import { PlayIcon } from '../components/icons'
@@ -32,7 +32,7 @@ function RecipeDetail() {
     <div className="page">
       <div className="recipe-detail-grid">
         <div className="recipe-detail-image">
-          <img src={recipe.strMealThumb} alt={recipe.strMeal} />
+          <img src={mealImg(recipe.strMealThumb, 'large')} alt={recipe.strMeal} />
         </div>
         <div className="recipe-detail-content">
           <h1>{recipe.strMeal}</h1>
@@ -58,7 +58,13 @@ function RecipeDetail() {
           <h3 className="detail-section-label">Ingredients</h3>
           <ul className="ingredient-list">
             {ingredients.map((item, i) => (
-              <li key={i}>
+              <li key={i} className="ingredient-item">
+                <img
+                  src={ingredientImg(item.ingredient, 'small')}
+                  alt=""
+                  className="ingredient-icon"
+                  onError={(e) => { (e.target as HTMLImageElement).style.display = 'none' }}
+                />
                 <span className="ingredient-measure">{item.measure}</span> {item.ingredient}
               </li>
             ))}

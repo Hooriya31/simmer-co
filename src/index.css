@@ -138,32 +138,6 @@ img { display: block; max-width: 100%; }
   margin: 0 auto;
 }
 
-/* SIDE ROW — real fetched recipe photos below the banner */
-.hero-side-row {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 12px;
-  margin-bottom: 16px;
-}
-.hero-side-card {
-  position: relative;
-  border-radius: var(--radius);
-  overflow: hidden;
-  height: clamp(90px, 15vh, 150px);
-  background-size: cover; background-position: center;
-  display: flex;
-  align-items: flex-end;
-}
-.hero-side-card::before {
-  content: '';
-  position: absolute; inset: 0;
-  background: linear-gradient(180deg, rgba(58,46,34,0) 45%, rgba(58,46,34,0.88) 100%);
-}
-.hero-side-card .hero-content { position: relative; z-index: 1; padding: 10px; color: #FFF8ED; }
-.hero-side-card h3 { font-family: var(--font-display); font-size: 0.9rem; line-height: 1.2; }
-@media (max-width: 768px) {
-  .hero-side-row { grid-template-columns: repeat(2, 1fr); }
-}
 
 /* CATEGORY CIRCLES ("Discover by Category") */
 .section-label {
@@ -388,4 +362,61 @@ img { display: block; max-width: 100%; }
 }
 @media (max-width: 768px) {
   .home-hero-wrap { min-height: calc(100dvh - 128px); }
+}
+
+/* CUISINE PILLS */
+.cuisine-scroll {
+  display: flex; gap: 10px;
+  overflow-x: auto;
+  padding-bottom: 6px;
+  margin-bottom: 6px;
+  scrollbar-width: none;
+}
+.cuisine-scroll::-webkit-scrollbar { display: none; }
+.cuisine-chip {
+  flex-shrink: 0;
+  background: var(--cream-card);
+  border: 1px solid rgba(58,46,34,0.1);
+  border-radius: 50px;
+  padding: 8px 16px;
+  font-size: 0.8rem;
+  color: var(--umber);
+  transition: all 0.2s;
+}
+.cuisine-chip.active, .cuisine-chip:hover {
+  background: var(--herb); color: #fff; border-color: var(--herb);
+}
+@media (max-width: 768px) {
+  .cuisine-chip { padding: 6px 12px; font-size: 0.72rem; }
+}
+
+/* INGREDIENT ICONS */
+.ingredient-item { display: flex; align-items: center; gap: 10px; }
+.ingredient-icon {
+  width: 28px; height: 28px;
+  border-radius: 6px;
+  object-fit: cover;
+  flex-shrink: 0;
+}
+
+/* FOOTER */
+.site-footer {
+  text-align: center;
+  padding: 20px;
+  font-size: 0.75rem;
+  color: var(--taupe);
+}
+.site-footer a { color: var(--paprika); text-decoration: underline; }
+
+.verify-banner {
+  background: rgba(212,162,76,0.15);
+  color: var(--umber);
+  text-align: center;
+  padding: 10px 16px;
+  font-size: 0.82rem;
+}
+.verify-banner button {
+  color: var(--paprika);
+  text-decoration: underline;
+  font-weight: 600;
 }

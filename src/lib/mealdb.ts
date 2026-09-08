@@ -31,3 +31,25 @@ export async function getByCategory(category: string) {
   const data = await res.json()
   return data.meals || []
 }
+
+export async function getAreas() {
+  const res = await fetch(`${BASE_URL}/list.php?a=list`)
+  const data = await res.json()
+  return data.meals || [] // TheMealDB nests area lists under "meals" too
+}
+
+export async function getByArea(area: string) {
+  const res = await fetch(`${BASE_URL}/filter.php?a=${area}`)
+  const data = await res.json()
+  return data.meals || []
+}
+
+// TheMealDB image size variants: append /small, /medium, or /large
+export function mealImg(url: string, size?: 'small' | 'medium' | 'large') {
+  return size ? `${url}/${size}` : url
+}
+
+export function ingredientImg(name: string, size?: 'small') {
+  const clean = encodeURIComponent(name.trim())
+  return `https://www.themealdb.com/images/ingredients/${clean}${size ? '-small' : ''}.png`
+}

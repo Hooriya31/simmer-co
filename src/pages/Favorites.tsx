@@ -25,7 +25,7 @@ function Favorites() {
     <div className="page">
       <h2 style={{ fontFamily: 'var(--font-display)', marginBottom: 20 }}>Your Favorites</h2>
       {favorites.length === 0 ? (
-        <p>No favorites yet — go find something delicious!</p>
+        <p>No favorites yet, go find something delicious!</p>
       ) : (
         <div className="recipe-grid">
           {favorites.map((fav) => (

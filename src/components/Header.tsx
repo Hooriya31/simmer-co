@@ -1,16 +1,10 @@
-import { Link, useNavigate, useLocation } from 'react-router-dom'
+import { Link, useLocation } from 'react-router-dom'
 import { useAuth } from '../context/AuthContext'
 import { HomeIcon, SearchIcon, HeartIcon, UserIcon } from './icons'
 
 function Header() {
-  const { user, logout } = useAuth()
-  const navigate = useNavigate()
+  const { user, resendVerification } = useAuth()
   const location = useLocation()
-
-  async function handleLogout() {
-    await logout()
-    navigate('/')
-  }
 
   return (
     <>
@@ -23,16 +17,23 @@ function Header() {
             <HeartIcon filled={false} /> Favorites
           </Link>
           {user ? (
-  <Link to="/account" className="nav-pill desktop-only">
-    <UserIcon /> Account
-  </Link>
-) : (
+            <Link to="/account" className="nav-pill desktop-only">
+              <UserIcon /> Account
+            </Link>
+          ) : (
             <Link to="/login" className="nav-pill nav-pill-solid desktop-only">
               <UserIcon /> Login
             </Link>
           )}
         </nav>
       </header>
+
+      {user && !user.emailVerified && (
+        <div className="verify-banner">
+          Please verify your email.{' '}
+          <button onClick={() => resendVerification()}>Resend verification email</button>
+        </div>
+      )}
 
       <nav className="bottom-nav">
         <Link to="/" className={location.pathname === '/' && !location.search ? 'active' : ''}>
