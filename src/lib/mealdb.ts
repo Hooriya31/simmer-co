@@ -33,9 +33,46 @@ export async function getByCategory(category: string) {
 }
 
 export async function getAreas() {
+  const cacheKey = 'simmer-co-areas-cache'
+  const cached = localStorage.getItem(cacheKey)
+
+  if (cached) {
+    const { data, timestamp } = JSON.parse(cached)
+    const isFresh = Date.now() - timestamp < 24 * 60 * 60 * 1000 // 24 hours
+    if (isFresh && data.length > 0) return data
+  }
+
   const res = await fetch(`${BASE_URL}/list.php?a=list`)
-  const data = await res.json()
-  return data.meals || [] // TheMealDB nests area lists under "meals" too
+  const listData = await res.json()
+  const allAreas: { strArea: string }[] = listData.meals || []
+
+  const results: { strArea: string; count: number }[] = []
+  const batchSize = 4
+
+  for (let i = 0; i < allAreas.length; i += batchSize) {
+    const batch = allAreas.slice(i, i + batchSize)
+    const batchResults = await Promise.all(
+      batch.map(async (a) => {
+        try {
+          const r = await fetch(`${BASE_URL}/filter.php?a=${a.strArea}`)
+          const d = await r.json()
+          return { ...a, count: d.meals?.length || 0 }
+        } catch {
+          return { ...a, count: 0 }
+        }
+      })
+    )
+    results.push(...batchResults)
+    await new Promise((resolve) => setTimeout(resolve, 300)) // brief pause between batches
+  }
+
+  const populated = results.filter((a) => a.count > 0)
+
+  if (populated.length > 0) {
+    localStorage.setItem(cacheKey, JSON.stringify({ data: populated, timestamp: Date.now() }))
+  }
+
+  return populated
 }
 
 export async function getByArea(area: string) {
