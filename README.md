@@ -1,75 +1,50 @@
-# React + TypeScript + Vite
+# Simmer & Co.
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+Recipe discovery app. Search recipes, filter by category or cuisine, save favorites to your account.
 
-Currently, two official plugins are available:
+**Live:** https://simmer-co-omega.vercel.app
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+![Simmer & Co. home screen](./docs/screenshot.png)
 
-## React Compiler
+## Why it exists
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+Built for FlyRank's Frontend AI Engineering internship. The brief was a React app with auth and saved favorites, time-boxed to 6 hours. I picked recipes over movies because I cook, and I think people would open a recipe app daily. Simmer & Co. is here to show, I can ship a complete, working interface.
 
-## Expanding the ESLint configuration
+## What works
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+- Search plus category and cuisine filtering (TheMealDB)
+- Recipe detail with ingredient icons and YouTube links
+- Email/password auth with verification banner, password reset, account deletion
+- Favorites stored in Firestore with real-time sync
+- Clicking favorite while logged out redirects to login, then returns you to where you were
+- Bottom nav on mobile, pill nav on desktop, custom SVG hero banner
 
-```js
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
+## Decisions
 
-      // Remove tseslint.configs.recommended and replace with this
-      tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      tseslint.configs.stylisticTypeChecked,
+- **Firebase over Supabase.** Supabase's free tier pauses after 7 days of inactivity. A public portfolio app that looks broken is worse than no app.
+- **TheMealDB over Spoonacular.** No API key, so anyone can run this in a minute.
+- **Stale-while-revalidate for the cuisine list.** TheMealDB rate-limits. Cached data renders immediately and refreshes in the background, so the UI never blocks.
 
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+## Limits
 
+- Recipe content comes from TheMealDB. I don't control its data, coverage, or uptime.
+- Built on free tiers only (Firebase, Vercel). No paid infrastructure, so no guarantees at scale.
+- Search and filtering depend on what TheMealDB exposes. I can't add recipes or fields it doesn't have.
+
+## Stack
+
+React, TypeScript, Vite, React Router, Firebase Auth + Firestore, Vercel.
+
+## Run locally
+
+```bash
+git clone https://github.com/Hooriya31/simmer-co
+cd simmer-co
+npm install
+[add your Firebase config, then name the env file and variables you actually use]
+npm run dev
 ```
 
-You can also install [eslint-plugin-react-x](https://npmx.dev/package/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://npmx.dev/package/eslint-plugin-react-dom) for React-specific lint rules:
+## Contact
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
-
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
-
-```
+Hooriya Ahmad. Message me on [LinkedIn](https://linkedin.com/in/hooriya-ahmad-ha31) or at hooriyaahmad31@gmail.com.
