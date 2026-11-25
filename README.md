@@ -4,8 +4,6 @@ Recipe discovery app. Search recipes, filter by category or cuisine, save favori
 
 **Live:** https://simmer-co-omega.vercel.app
 
-![Simmer & Co. home screen](./docs/screenshot.png)
-
 ## Why it exists
 
 Built for FlyRank's Frontend AI Engineering internship. The brief was a React app with auth and saved favorites, time-boxed to 6 hours. I picked recipes over movies because I cook, and I think people would open a recipe app daily. Simmer & Co. is here to show, I can ship a complete, working interface.
